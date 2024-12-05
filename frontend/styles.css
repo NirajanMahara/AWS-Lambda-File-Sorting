@@ -1,0 +1,226 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.instructions {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.instructions p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.upload-section {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#fileInput {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#uploadButton {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#uploadButton:hover {
+    background-color: #0056b3;
+}
+
+.progress-section {
+    margin: 20px 0;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress {
+    width: 0;
+    height: 100%;
+    background-color: #28a745;
+    transition: width 0.3s ease-in-out;
+    border-radius: 10px;
+}
+
+#status {
+    text-align: center;
+    color: #666;
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.result-section {
+    margin-top: 20px;
+}
+
+#sortedContent {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    font-size: 14px;
+}
+
+.error-message {
+    color: #dc3545;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+    display: none;
+}
+
+.comparison-section {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.content-column {
+    flex: 1;
+    min-width: 0;
+}
+
+.content-box {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    font-size: 14px;
+    border: 1px solid #dee2e6;
+}
+
+.content-box:hover {
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.highlight-different {
+    background-color: #fff3cd;
+}
+
+.csv-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    font-family: monospace;
+}
+
+.csv-row {
+    display: flex;
+    border-bottom: 1px solid #eee;
+}
+
+.csv-row:hover {
+    background-color: #f8f9fa;
+}
+
+.csv-row.header {
+    position: sticky;
+    top: 0;
+    background-color: #f1f1f1;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.csv-cell {
+    flex: 1;
+    padding: 8px;
+    border-right: 1px solid #eee;
+    min-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Update column widths based on content type */
+.csv-row .csv-cell:nth-child(1) { flex: 2; } /* Name */
+.csv-row .csv-cell:nth-child(2) { flex: 3; } /* Address */
+.csv-row .csv-cell:nth-child(3) { flex: 1; } /* Suite */
+.csv-row .csv-cell:nth-child(4) { flex: 1.5; } /* City */
+.csv-row .csv-cell:nth-child(5) { flex: 1.5; } /* Country */
+.csv-row .csv-cell:nth-child(6) { flex: 2; } /* Phone */
+.csv-row .csv-cell:nth-child(7) { flex: 0.5; } /* Age */
+.csv-row .csv-cell:nth-child(8) { flex: 1; } /* Occupation */
+.csv-row .csv-cell:nth-child(9) { flex: 2; } /* UUID */
+.csv-row .csv-cell:nth-child(10) { flex: 1; } /* DOB */
+
+.content-box {
+    max-height: 600px; /* Increased height for better visibility */
+    overflow-x: auto; /* Enable horizontal scroll if needed */
+}
+
+.highlight-different {
+    background-color: #fff3cd;
+}
+
+.highlight-different:hover {
+    background-color: #ffe7b3;
+}
+
+/* Add tooltips for truncated content */
+.csv-cell {
+    position: relative;
+}
+
+.csv-cell:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background: #333;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 2;
+    display: none;
+}
+
+.csv-cell[title]:hover::after {
+    display: block;
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Sorting Application - Nirajan - 0921977</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>File Sorting Application</h1>
+        <div class="instructions">
+            <p>Upload a .txt file to sort its contents.</p>
+            <p>Supported format: CSV with headers</p>
+        </div>
+        
+        <div class="upload-section">
+            <input type="file" id="fileInput" accept=".txt">
+            <button id="uploadButton">Upload File</button>
+        </div>
+
+        <div class="progress-section" style="display: none;">
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            <p id="status">Processing...</p>
+        </div>
+
+        <div class="comparison-section">
+            <div class="content-column">
+                <h2>Original Content</h2>
+                <pre id="originalContent" class="content-box"></pre>
+            </div>
+            <div class="content-column">
+                <h2>Sorted Content</h2>
+                <pre id="sortedContent" class="content-box"></pre>
+            </div>
+        </div>
+
+        <div id="error-message" class="error-message"></div>
+    </div>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1001.0.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html> 
