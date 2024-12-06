@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Sorting Application - Nirajan - 0921977</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
@@ -34,6 +35,36 @@
             <div class="content-column">
                 <h2>Sorted Content</h2>
                 <pre id="sortedContent" class="content-box"></pre>
+            </div>
+        </div>
+
+        <div class="visualization-section">
+            <div class="stats-container">
+                <h3>Processing Statistics</h3>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h4>Total Files</h4>
+                        <span id="totalFiles">0</span>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Processing Time</h4>
+                        <span id="avgProcessingTime">0ms</span>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Success Rate</h4>
+                        <span id="successRate">0%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="graph-container">
+                <h3>Upload History</h3>
+                <canvas id="uploadHistoryGraph"></canvas>
+            </div>
+            
+            <div class="preview-container">
+                <h3>CSV Preview</h3>
+                <div id="csvPreview" class="csv-preview"></div>
             </div>
         </div>
 
