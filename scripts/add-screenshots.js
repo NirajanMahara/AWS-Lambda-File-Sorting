@@ -1,9 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 
+// to run:
+// node scripts/add-screenshots.js
+
 // Configuration
 const SCREENSHOTS_DIR = 'screenshots';
-const README_PATH = 'docs/README.md';
+const README_PATH = 'README.md';
 const IMAGE_SECTION_HEADER = '\n## Screenshots\n';
 
 // Read the screenshots directory
@@ -29,8 +32,8 @@ function generateImageMarkdown(screenshots) {
             .replace(/[-_]/g, ' ')
             .replace(/\b\w/g, c => c.toUpperCase());
             
-        // Ensure proper URL encoding for image path
-        const imagePath = `../screenshots/${screenshot}`;
+        // Update image path to remove '../' since README is now in root
+        const imagePath = `${SCREENSHOTS_DIR}/${screenshot}`;
         
         return `### ${title}\n![${title}](${imagePath})\n`;
     }).join('\n');

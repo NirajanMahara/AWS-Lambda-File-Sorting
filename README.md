@@ -199,34 +199,34 @@ For issues or questions, please contact:
 
 ## Screenshots
 ### Screenshot 2024 12 04 At 4.09.33 PM
-![Screenshot 2024 12 04 At 4.09.33 PM](../screenshots/Screenshot%202024-12-04%20at%204.09.33%20PM.png)
+![Screenshot 2024 12 04 At 4.09.33 PM](screenshots/Screenshot%202024-12-04%20at%204.09.33%20PM.png)
 
 ### Screenshot 2024 12 04 At 4.14.19 PM
-![Screenshot 2024 12 04 At 4.14.19 PM](../screenshots/Screenshot%202024-12-04%20at%204.14.19%20PM.png)
+![Screenshot 2024 12 04 At 4.14.19 PM](screenshots/Screenshot%202024-12-04%20at%204.14.19%20PM.png)
 
 ### Screenshot 2024 12 05 At 12.57.42 AM
-![Screenshot 2024 12 05 At 12.57.42 AM](../screenshots/Screenshot%202024-12-05%20at%2012.57.42%20AM.png)
+![Screenshot 2024 12 05 At 12.57.42 AM](screenshots/Screenshot%202024-12-05%20at%2012.57.42%20AM.png)
 
 ### Screenshot 2024 12 06 At 1.50.22 AM
-![Screenshot 2024 12 06 At 1.50.22 AM](../screenshots/Screenshot%202024-12-06%20at%201.50.22%20AM.png)
+![Screenshot 2024 12 06 At 1.50.22 AM](screenshots/Screenshot%202024-12-06%20at%201.50.22%20AM.png)
 
 ### Screenshot 2024 12 06 At 1.50.30 AM
-![Screenshot 2024 12 06 At 1.50.30 AM](../screenshots/Screenshot%202024-12-06%20at%201.50.30%20AM.png)
+![Screenshot 2024 12 06 At 1.50.30 AM](screenshots/Screenshot%202024-12-06%20at%201.50.30%20AM.png)
 
 ### Screenshot 2024 12 06 At 2.13.41 AM
-![Screenshot 2024 12 06 At 2.13.41 AM](../screenshots/Screenshot%202024-12-06%20at%202.13.41%20AM.png)
+![Screenshot 2024 12 06 At 2.13.41 AM](screenshots/Screenshot%202024-12-06%20at%202.13.41%20AM.png)
 
 ### Cognito Unauth Policy Screenshot 2024 12 04 At 4.03.23 PM
-![Cognito Unauth Policy Screenshot 2024 12 04 At 4.03.23 PM](../screenshots/cognito-unauth-policy%20Screenshot%202024-12-04%20at%204.03.23%20PM.png)
+![Cognito Unauth Policy Screenshot 2024 12 04 At 4.03.23 PM](screenshots/cognito-unauth-policy%20Screenshot%202024-12-04%20at%204.03.23%20PM.png)
 
 ### Custom Policies Screenshot 2024 12 05 At 1.58.23 PM
-![Custom Policies Screenshot 2024 12 05 At 1.58.23 PM](../screenshots/custom%20policies%20Screenshot%202024-12-05%20at%201.58.23%20PM.png)
+![Custom Policies Screenshot 2024 12 05 At 1.58.23 PM](screenshots/custom%20policies%20Screenshot%202024-12-05%20at%201.58.23%20PM.png)
 
 ### Lambda Function And Test Creencapture Ca Central 1 Console Aws Amazon Lambda Home 2024 12 06 00 52 39
-![Lambda Function And Test Creencapture Ca Central 1 Console Aws Amazon Lambda Home 2024 12 06 00 52 39](../screenshots/lambda_function%20and%20test%20creencapture-ca-central-1-console-aws-amazon-lambda-home-2024-12-06-00_52_39.png)
+![Lambda Function And Test Creencapture Ca Central 1 Console Aws Amazon Lambda Home 2024 12 06 00 52 39](screenshots/lambda_function%20and%20test%20creencapture-ca-central-1-console-aws-amazon-lambda-home-2024-12-06-00_52_39.png)
 
 ### Lambda Function Test Screencapture Ca Central 1 Console Aws Amazon Lambda Home 2024 12 06 00 55 27
-![Lambda Function Test Screencapture Ca Central 1 Console Aws Amazon Lambda Home 2024 12 06 00 55 27](../screenshots/lambda_function%20test%20screencapture-ca-central-1-console-aws-amazon-lambda-home-2024-12-06-00_55_27.png)
+![Lambda Function Test Screencapture Ca Central 1 Console Aws Amazon Lambda Home 2024 12 06 00 55 27](screenshots/lambda_function%20test%20screencapture-ca-central-1-console-aws-amazon-lambda-home-2024-12-06-00_55_27.png)
 
 ### Screencapture 127 0 0 1 5500 Frontend Index Html 2024 12 06 02 59 21
-![Screencapture 127 0 0 1 5500 Frontend Index Html 2024 12 06 02 59 21](../screenshots/screencapture-127-0-0-1-5500-frontend-index-html-2024-12-06-02_59_21.png)
+![Screencapture 127 0 0 1 5500 Frontend Index Html 2024 12 06 02 59 21](screenshots/screencapture-127-0-0-1-5500-frontend-index-html-2024-12-06-02_59_21.png)
