@@ -9,20 +9,42 @@ A serverless web application that allows users to upload CSV files containing us
 - Automatic sorting of user data by name
 - Error handling and validation
 - Mobile-responsive design
+- Multi-format export (SRT, CSV, JSON)
+- Real-time processing statistics
+- File upload history visualization
+- CSV data preview with sorting animation
+- Automatic history synchronization with S3
 
 ## Live Demo
-- Frontend URL: [Your hosted frontend URL]
+- Frontend URL: http://127.0.0.1:5500/frontend/index.html
 - Test Credentials: Not required (uses anonymous access)
 
 ## Technical Stack
-- **Frontend**: HTML, CSS, JavaScript
+- **Frontend**: HTML, CSS, JavaScript, Chart.js
 - **Backend**: AWS Lambda (Python)
 - **Storage**: AWS S3
 - **Authentication**: AWS Cognito (anonymous)
 
 ## Implementation Details
-The page uses AWS SDK for JavaScript to interact with S3.
+The application includes:
+- Real-time data visualization using Chart.js
+- Processing statistics dashboard
+- File history management with S3 sync
+- Multi-format export capabilities
+- CSV preview with sorting animations
 
+### Data Visualization Features
+- Processing time metrics
+- Success rate tracking
+- File upload history graph
+- CSV data preview
+- Sorting animations
+
+### File Management
+- Automatic S3 synchronization
+- Multiple export formats (SRT, CSV, JSON)
+- Real-time history updates
+- Last 5 files tracking
 
 ### AWS S3 Buckets
 - Input Bucket: sortin-nirajan-0921977
@@ -172,3 +194,39 @@ For issues or questions, please contact:
 - Development: Complete
 - Testing: In Progress
 - Documentation: Complete
+
+
+
+## Screenshots
+### Screenshot 2024 12 04 At 4.09.33 PM
+![Screenshot 2024 12 04 At 4.09.33 PM](../screenshots/Screenshot%202024-12-04%20at%204.09.33%20PM.png)
+
+### Screenshot 2024 12 04 At 4.14.19 PM
+![Screenshot 2024 12 04 At 4.14.19 PM](../screenshots/Screenshot%202024-12-04%20at%204.14.19%20PM.png)
+
+### Screenshot 2024 12 05 At 12.57.42 AM
+![Screenshot 2024 12 05 At 12.57.42 AM](../screenshots/Screenshot%202024-12-05%20at%2012.57.42%20AM.png)
+
+### Screenshot 2024 12 06 At 1.50.22 AM
+![Screenshot 2024 12 06 At 1.50.22 AM](../screenshots/Screenshot%202024-12-06%20at%201.50.22%20AM.png)
+
+### Screenshot 2024 12 06 At 1.50.30 AM
+![Screenshot 2024 12 06 At 1.50.30 AM](../screenshots/Screenshot%202024-12-06%20at%201.50.30%20AM.png)
+
+### Screenshot 2024 12 06 At 2.13.41 AM
+![Screenshot 2024 12 06 At 2.13.41 AM](../screenshots/Screenshot%202024-12-06%20at%202.13.41%20AM.png)
+
+### Cognito Unauth Policy Screenshot 2024 12 04 At 4.03.23 PM
+![Cognito Unauth Policy Screenshot 2024 12 04 At 4.03.23 PM](../screenshots/cognito-unauth-policy%20Screenshot%202024-12-04%20at%204.03.23%20PM.png)
+
+### Custom Policies Screenshot 2024 12 05 At 1.58.23 PM
+![Custom Policies Screenshot 2024 12 05 At 1.58.23 PM](../screenshots/custom%20policies%20Screenshot%202024-12-05%20at%201.58.23%20PM.png)
+
+### Lambda Function And Test Creencapture Ca Central 1 Console Aws Amazon Lambda Home 2024 12 06 00 52 39
+![Lambda Function And Test Creencapture Ca Central 1 Console Aws Amazon Lambda Home 2024 12 06 00 52 39](../screenshots/lambda_function%20and%20test%20creencapture-ca-central-1-console-aws-amazon-lambda-home-2024-12-06-00_52_39.png)
+
+### Lambda Function Test Screencapture Ca Central 1 Console Aws Amazon Lambda Home 2024 12 06 00 55 27
+![Lambda Function Test Screencapture Ca Central 1 Console Aws Amazon Lambda Home 2024 12 06 00 55 27](../screenshots/lambda_function%20test%20screencapture-ca-central-1-console-aws-amazon-lambda-home-2024-12-06-00_55_27.png)
+
+### Screencapture 127 0 0 1 5500 Frontend Index Html 2024 12 06 02 59 21
+![Screencapture 127 0 0 1 5500 Frontend Index Html 2024 12 06 02 59 21](../screenshots/screencapture-127-0-0-1-5500-frontend-index-html-2024-12-06-02_59_21.png)
