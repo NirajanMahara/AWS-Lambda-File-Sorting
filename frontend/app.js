@@ -29,43 +29,71 @@ function validateFile(file) {
 }
 
 // History management functions
+// Update addToHistory function to prevent duplicates
 function addToHistory(fileName, actualKey) {
-    const sortedFileName = actualKey.split('/').pop(); // Get filename from S3 key
+    // Check if this file is already in history
+    const existingIndex = fileHistory.findIndex(item => item.key === actualKey);
+    
     const historyItem = {
-        originalFileName: fileName,
-        sortedFileName: sortedFileName,
+        sortedFileName: actualKey.split('/').pop(),
         timestamp: new Date().toISOString(),
-        key: actualKey  // Store the actual key from S3
+        key: actualKey
     };
     
-    fileHistory.unshift(historyItem);
-    if (fileHistory.length > 5) {
-        fileHistory.pop();
+    if (existingIndex !== -1) {
+        // Update existing entry instead of adding duplicate
+        fileHistory[existingIndex] = historyItem;
+    } else {
+        // Add new entry
+        fileHistory.unshift(historyItem);
+        // Keep only the last 5 entries
+        if (fileHistory.length > 5) {
+            fileHistory.pop();
+        }
     }
     
+    // Update display and save to localStorage
     updateHistoryDisplay();
     localStorage.setItem('fileHistory', JSON.stringify(fileHistory));
 }
 
-function updateHistoryDisplay() {
-    const historyElement = document.getElementById('fileHistory');
-    if (!historyElement) return;
-
-    historyElement.innerHTML = fileHistory.map(item => `
-        <div class="history-item">
-            <span class="history-filename">${item.sortedFileName}</span>
-            <span class="history-timestamp">${new Date(item.timestamp).toLocaleString()}</span>
-            <button class="history-download" onclick="downloadHistoryFile('${item.key}', '${item.sortedFileName}')">
-                Download
-            </button>
-        </div>
-    `).join('');
+// Add function to refresh history from S3
+async function refreshFileHistory() {
+    try {
+        const params = {
+            Bucket: OUTPUT_BUCKET,
+            Prefix: 'sorted_'
+        };
+        
+        const data = await s3.listObjects(params).promise();
+        const files = data.Contents
+            .map(obj => ({
+                key: obj.Key,
+                lastModified: obj.LastModified
+            }))
+            .sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified))
+            .slice(0, 5);  // Keep only the 5 most recent files
+            
+        fileHistory = files.map(file => ({
+            sortedFileName: file.key.split('/').pop(),
+            timestamp: new Date(file.lastModified).toISOString(),
+            key: file.key
+        }));
+        
+        updateHistoryDisplay();
+        localStorage.setItem('fileHistory', JSON.stringify(fileHistory));
+    } catch (error) {
+        console.error('Error refreshing history:', error);
+    }
 }
 
-// Download functionality
-async function downloadHistoryFile(key, sortedFileName) {
+// Call refreshFileHistory when page loads
+document.addEventListener('DOMContentLoaded', refreshFileHistory);
+
+// Add new function for format conversion and download
+async function downloadHistoryFileWithFormat(key, fileName, format) {
     try {
-        console.log('Attempting to download with key:', key);
+        console.log(`Attempting to download with key: ${key} in format: ${format}`);
         
         const params = {
             Bucket: OUTPUT_BUCKET,
@@ -78,16 +106,45 @@ async function downloadHistoryFile(key, sortedFileName) {
         statusElement.textContent = 'Downloading file...';
 
         const data = await s3.getObject(params).promise();
-        console.log('File found and retrieved');
-        
-        updateProgress(75);
         const content = data.Body.toString('utf-8');
         
-        const blob = new Blob([content], { type: 'text/plain' });
+        // Convert content based on format
+        let downloadContent;
+        let mimeType;
+        let fileExtension;
+        
+        switch(format) {
+            case 'srt':
+                downloadContent = content;
+                mimeType = 'text/plain';
+                fileExtension = '.srt';
+                break;
+            case 'csv':
+                downloadContent = content;  // Already in CSV format
+                mimeType = 'text/csv';
+                fileExtension = '.csv';
+                break;
+            case 'json':
+                const lines = content.trim().split('\n');
+                const headers = ['Name', 'Address', 'Suite/Apt', 'City', 'Country', 
+                               'Phone', 'Age', 'Occupation', 'UUID', 'DOB'];
+                const jsonData = lines.map(line => {
+                    const values = line.split(',');
+                    return Object.fromEntries(headers.map((header, i) => [header, values[i]]));
+                });
+                downloadContent = JSON.stringify(jsonData, null, 2);
+                mimeType = 'application/json';
+                fileExtension = '.json';
+                break;
+            default:
+                throw new Error('Unsupported format');
+        }
+
+        const blob = new Blob([downloadContent], { type: mimeType });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = sortedFileName; // Use the sorted filename directly
+        a.download = fileName.replace('.srt', fileExtension);
         document.body.appendChild(a);
         a.click();
         
@@ -105,6 +162,30 @@ async function downloadHistoryFile(key, sortedFileName) {
         errorDiv.textContent = `Download failed: ${error.message}`;
         hideProgress();
     }
+}
+
+// Update updateHistoryDisplay function
+function updateHistoryDisplay() {
+    const historyElement = document.getElementById('fileHistory');
+    if (!historyElement) return;
+
+    historyElement.innerHTML = fileHistory.map(item => `
+        <div class="history-item">
+            <span class="history-filename">${item.sortedFileName}</span>
+            <span class="history-timestamp">${new Date(item.timestamp).toLocaleString()}</span>
+            <div class="download-options">
+                <button class="history-download" onclick="downloadHistoryFileWithFormat('${item.key}', '${item.sortedFileName}', 'srt')">
+                    SRT
+                </button>
+                <button class="history-download" onclick="downloadHistoryFileWithFormat('${item.key}', '${item.sortedFileName}', 'csv')">
+                    CSV
+                </button>
+                <button class="history-download" onclick="downloadHistoryFileWithFormat('${item.key}', '${item.sortedFileName}', 'json')">
+                    JSON
+                </button>
+            </div>
+        </div>
+    `).join('');
 }
 
 // Modified handleFileUpload function

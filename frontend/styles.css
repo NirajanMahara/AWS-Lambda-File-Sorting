@@ -259,6 +259,11 @@ h1 {
     color: #666;
 }
 
+.download-options {
+    display: flex;
+    gap: 5px;
+}
+
 .history-download {
     padding: 5px 10px;
     background-color: #28a745;
@@ -267,11 +272,21 @@ h1 {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s;
+    font-size: 12px;
 }
 
 .history-download:hover {
     background-color: #218838;
 }
+
+/* Different colors for different formats */
+.history-download:nth-child(1) { background-color: #28a745; }  /* SRT */
+.history-download:nth-child(2) { background-color: #007bff; }  /* CSV */
+.history-download:nth-child(3) { background-color: #6c757d; }  /* JSON */
+
+.history-download:nth-child(1):hover { background-color: #218838; }
+.history-download:nth-child(2):hover { background-color: #0056b3; }
+.history-download:nth-child(3):hover { background-color: #5a6268; }
 
 .file-info {
     margin-top: 15px;
