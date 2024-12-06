@@ -14,16 +14,22 @@ A serverless web application that allows users to upload CSV files containing us
 - File upload history visualization
 - CSV data preview with sorting animation
 - Automatic history synchronization with S3
+- Horizontal scrolling for wide data on mobile
+- Sticky headers for better navigation
+- Touch-optimized interface for mobile devices
+- Responsive design for all screen sizes
 
 ## Live Demo
 - Frontend URL: http://127.0.0.1:5500/frontend/index.html
 - Test Credentials: Not required (uses anonymous access)
 
 ## Technical Stack
-- **Frontend**: HTML, CSS, JavaScript, Chart.js
+- **Frontend**: HTML5, CSS3, JavaScript (ES6+), Chart.js
 - **Backend**: AWS Lambda (Python)
 - **Storage**: AWS S3
 - **Authentication**: AWS Cognito (anonymous)
+- **Development Tools**: VS Code, AWS Console
+- **Version Control**: Git
 
 ## Implementation Details
 The application includes:
@@ -32,6 +38,10 @@ The application includes:
 - File history management with S3 sync
 - Multi-format export capabilities
 - CSV preview with sorting animations
+- Mobile-optimized interface with touch support
+- Responsive design with CSS Grid and Flexbox
+- Modern CSS features with CSS Variables
+- Accessibility features (ARIA labels, semantic HTML)
 
 ### Data Visualization Features
 - Processing time metrics
@@ -198,6 +208,16 @@ For issues or questions, please contact:
 
 
 ## Screenshots
+
+### Screenshot 2024 12 06 At 10.59.04 AM
+![Screenshot 2024 12 06 At 10.59.04 AM](screenshots/Screenshot%202024-12-06%20at%2010.59.04%20AM.png)
+
+### Screenshot 2024 12 06 At 10.59.39 AM
+![Screenshot 2024 12 06 At 10.59.39 AM](screenshots/Screenshot%202024-12-06%20at%2010.59.39%20AM.png)
+
+### Screenshot 2024 12 06 At 10.59.53 AM
+![Screenshot 2024 12 06 At 10.59.53 AM](screenshots/Screenshot%202024-12-06%20at%2010.59.53%20AM.png)
+
 ### Screenshot 2024 12 04 At 4.09.33 PM
 ![Screenshot 2024 12 04 At 4.09.33 PM](screenshots/Screenshot%202024-12-04%20at%204.09.33%20PM.png)
 
@@ -230,3 +250,6 @@ For issues or questions, please contact:
 
 ### Screencapture 127 0 0 1 5500 Frontend Index Html 2024 12 06 02 59 21
 ![Screencapture 127 0 0 1 5500 Frontend Index Html 2024 12 06 02 59 21](screenshots/screencapture-127-0-0-1-5500-frontend-index-html-2024-12-06-02_59_21.png)
+
+### Screencapture 127 0 0 1 5500 Frontend Index Html 2024 12 06 14 15 05
+![Screencapture 127 0 0 1 5500 Frontend Index Html 2024 12 06 14 15 05](screenshots/screencapture-127-0-0-1-5500-frontend-index-html-2024-12-06-14_15_05.png)
