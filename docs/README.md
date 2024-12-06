@@ -21,12 +21,19 @@ A serverless web application that allows users to upload CSV files containing us
 - **Authentication**: AWS Cognito (anonymous)
 
 ## Implementation Details
+The page uses AWS SDK for JavaScript to interact with S3.
 
-### S3 Buckets
-1. Input Bucket: `sortin-nirajan-0921977`
-2. Output Bucket: `sortout-nirajan-0921977`
 
-### Lambda Function
+### AWS S3 Buckets
+- Input Bucket: sortin-nirajan-0921977
+- Output Bucket: sortout-nirajan-0921977
+- Ensure both buckets have the correct CORS configuration and permissions to allow the Lambda function to read from the input bucket and write to the output bucket.
+
+### AWS Lambda Function: `lambda_function.py`
+- is set up to:
+  - Trigger on file uploads to the SortIn bucket.
+  - Read, sort, and write the file to the SortOut bucket with a .srt extension.
+
 - Processes CSV files containing user data with fields:
   - Name
   - Address
@@ -49,7 +56,7 @@ A serverless web application that allows users to upload CSV files containing us
 
 1. **Clone the Repository**
 ```bash
-git clone [your-repository-url]
+git clone [repository-url]
 cd [repository-name]
 ```
 
@@ -75,9 +82,9 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 - View sorted results
 
 ## Usage Example
-1. Prepare a CSV file with user data
+1. Prepare a CSV or Excel text file with user data
 2. Click "Choose File" on the web interface
-3. Select your CSV file
+3. Select your CSV or Excel text file
 4. Click "Upload File"
 5. Wait for processing (progress bar will indicate status)
 6. View the sorted results displayed on the page

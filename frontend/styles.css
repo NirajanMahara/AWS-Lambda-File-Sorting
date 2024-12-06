@@ -224,3 +224,71 @@ h1 {
 .csv-cell[title]:hover::after {
     display: block;
 }
+
+.file-history {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 14px;
+}
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+.history-filename {
+    flex: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.history-timestamp {
+    flex: 1;
+    text-align: center;
+    color: #666;
+}
+
+.history-download {
+    padding: 5px 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.history-download:hover {
+    background-color: #218838;
+}
+
+.file-info {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #666;
+}
+
+/* Add responsive design */
+@media (max-width: 768px) {
+    .comparison-section {
+        flex-direction: column;
+    }
+    
+    .content-column {
+        width: 100%;
+    }
+}

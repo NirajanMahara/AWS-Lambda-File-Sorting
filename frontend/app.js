@@ -8,8 +8,106 @@ const s3 = new AWS.S3();
 const INPUT_BUCKET = 'sortin-nirajan-0921977';
 const OUTPUT_BUCKET = 'sortout-nirajan-0921977';
 
+// Initialize file history array
+let fileHistory = [];
+
 document.getElementById('uploadButton').addEventListener('click', handleFileUpload);
 
+// File validation function
+function validateFile(file) {
+    const allowedTypes = ['.txt', '.csv', '.srt'];
+    const extension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+    
+    if (!allowedTypes.includes(extension)) {
+        throw new Error('Please upload a .txt, .csv, or .srt file');
+    }
+    
+    if (file.size > 10 * 1024 * 1024) { // 10MB limit
+        throw new Error('File size must be less than 10MB');
+    }
+    return true;
+}
+
+// History management functions
+function addToHistory(fileName, actualKey) {
+    const sortedFileName = actualKey.split('/').pop(); // Get filename from S3 key
+    const historyItem = {
+        originalFileName: fileName,
+        sortedFileName: sortedFileName,
+        timestamp: new Date().toISOString(),
+        key: actualKey  // Store the actual key from S3
+    };
+    
+    fileHistory.unshift(historyItem);
+    if (fileHistory.length > 5) {
+        fileHistory.pop();
+    }
+    
+    updateHistoryDisplay();
+    localStorage.setItem('fileHistory', JSON.stringify(fileHistory));
+}
+
+function updateHistoryDisplay() {
+    const historyElement = document.getElementById('fileHistory');
+    if (!historyElement) return;
+
+    historyElement.innerHTML = fileHistory.map(item => `
+        <div class="history-item">
+            <span class="history-filename">${item.sortedFileName}</span>
+            <span class="history-timestamp">${new Date(item.timestamp).toLocaleString()}</span>
+            <button class="history-download" onclick="downloadHistoryFile('${item.key}', '${item.sortedFileName}')">
+                Download
+            </button>
+        </div>
+    `).join('');
+}
+
+// Download functionality
+async function downloadHistoryFile(key, sortedFileName) {
+    try {
+        console.log('Attempting to download with key:', key);
+        
+        const params = {
+            Bucket: OUTPUT_BUCKET,
+            Key: key
+        };
+
+        showProgress();
+        updateProgress(25);
+        const statusElement = document.getElementById('status');
+        statusElement.textContent = 'Downloading file...';
+
+        const data = await s3.getObject(params).promise();
+        console.log('File found and retrieved');
+        
+        updateProgress(75);
+        const content = data.Body.toString('utf-8');
+        
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = sortedFileName; // Use the sorted filename directly
+        document.body.appendChild(a);
+        a.click();
+        
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        
+        updateProgress(100);
+        statusElement.textContent = 'Download complete!';
+        setTimeout(hideProgress, 1000);
+
+    } catch (error) {
+        console.error('Download failed:', error);
+        const errorDiv = document.getElementById('error-message');
+        errorDiv.style.display = 'block';
+        errorDiv.textContent = `Download failed: ${error.message}`;
+        hideProgress();
+    }
+}
+
+// Modified handleFileUpload function
 async function handleFileUpload() {
     const fileInput = document.getElementById('fileInput');
     const file = fileInput.files[0];
@@ -26,13 +124,12 @@ async function handleFileUpload() {
             throw new Error('Please select a file first.');
         }
 
-        if (!file.name.endsWith('.txt')) {
-            throw new Error('Please select a .txt file.');
-        }
+        // Validate file
+        validateFile(file);
 
         // Read and display original file
         const originalContent = await readFile(file);
-        originalContentElement.textContent = originalContent;
+        originalContentElement.innerHTML = formatCSVContent(originalContent);
 
         // Show progress bar at start
         showProgress();
@@ -60,6 +157,13 @@ async function handleFileUpload() {
             }, 200);
         });
         
+        // Wait for the sorted file to appear in the bucket
+        const sortedKey = await waitForSortedFile(file.name);
+        console.log('Found sorted file:', sortedKey);
+        
+        // Add to history with the actual key
+        addToHistory(file.name, sortedKey);
+        
         // Retrieval phase (70-100%)
         statusElement.textContent = 'Retrieving sorted file...';
         updateProgress(70);
@@ -70,7 +174,7 @@ async function handleFileUpload() {
         statusElement.textContent = 'Complete!';
         
         // Display content and highlight differences
-        sortedContentElement.textContent = sortedContent;
+        sortedContentElement.innerHTML = formatCSVContent(sortedContent);
         highlightDifferences(originalContent, sortedContent);
         
         // Hide progress after a delay
@@ -84,6 +188,15 @@ async function handleFileUpload() {
         hideProgress();
     }
 }
+
+// Load history from localStorage on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const savedHistory = localStorage.getItem('fileHistory');
+    if (savedHistory) {
+        fileHistory = JSON.parse(savedHistory);
+        updateHistoryDisplay();
+    }
+});
 
 async function uploadToS3(file, progressCallback) {
     const params = {
@@ -222,4 +335,62 @@ function highlightDifferences(original, sorted) {
             originalRows[originalIndex].classList.add('highlight-different');
         }
     });
+}
+
+// Add this function to help with debugging
+async function listBucketContents() {
+    try {
+        const params = {
+            Bucket: OUTPUT_BUCKET,
+            Prefix: 'sorted_'
+        };
+        const data = await s3.listObjects(params).promise();
+        console.log('Bucket contents:', data.Contents.map(item => item.Key));
+    } catch (error) {
+        console.error('Error listing bucket:', error);
+    }
+}
+
+// Call this when the page loads to see what's in the bucket
+document.addEventListener('DOMContentLoaded', listBucketContents);
+
+// Add function to wait for the sorted file
+async function waitForSortedFile(fileName) {
+    const baseFileName = fileName.replace('.txt', '');
+    const maxAttempts = 10;
+    let attempts = 0;
+
+    while (attempts < maxAttempts) {
+        try {
+            const params = {
+                Bucket: OUTPUT_BUCKET,
+                Prefix: `sorted_`
+            };
+            
+            const data = await s3.listObjects(params).promise();
+            const files = data.Contents.map(obj => obj.Key);
+            
+            // Sort files by last modified (newest first)
+            const sortedFiles = files.sort((a, b) => {
+                return b.localeCompare(a);
+            });
+            
+            // Find the most recent file matching our base filename
+            const matchingFile = sortedFiles.find(key => 
+                key.includes(baseFileName) && key.endsWith('.srt')
+            );
+            
+            if (matchingFile) {
+                return matchingFile;
+            }
+        } catch (error) {
+            console.error('Error checking for sorted file:', error);
+        }
+        
+        // Wait 1 second before next attempt
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        attempts++;
+    }
+    
+    throw new Error('Timeout waiting for sorted file');
 }
